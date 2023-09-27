@@ -1,0 +1,74 @@
+###
+# 1: Obtener el listado completo de usuarios
+###
+
+GET http://localhost:1234/usuarios
+
+###
+# 2: Obtener datos de un usuario por ID
+###
+
+GET http://localhost:1234/usuarios/1
+
+###
+# 3: Crear un nuevo usuario
+###
+
+POST http://localhost:1234/usuarios
+Content-Type: application/json
+
+{
+  "id": 11,
+  "nombre": "Matias Riera",
+  "edad": 32,
+  "email": "mriera@ejemplo.com",
+  "telefono": "+342 5157 516"
+}
+
+###
+# 4: Modificar atributos de un usuario por ID
+###
+
+PATCH http://localhost:1234/usuarios/11
+Content-Type: application/json
+
+{
+  "nombre": "Matias Riera",  
+  "email": "mriera@gmail.com"
+}
+
+###
+# 5: Borrar un usuario por ID
+###
+
+DELETE http://localhost:1234/usuarios/11
+
+###
+# 6: Obtener el precio de un producto por ID
+###
+
+GET http://localhost:1234/productos/1/precio
+
+###
+# 7: Obtener el nombre de un producto por ID
+###
+
+GET http://localhost:1234/productos/1/nombre
+
+###
+# 8: Obtener el teléfono de un usuario por ID
+###
+
+GET http://localhost:1234/usuarios/1/telefono
+
+###
+# 9: Obtener el nombre de un usuario por ID
+###
+
+GET http://localhost:1234/usuarios/1/nombre
+
+###
+# 10: Obtener el total del stock actual de productos
+###
+
+GET http://localhost:1234/productos/total
