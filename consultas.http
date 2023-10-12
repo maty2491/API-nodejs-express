@@ -3,12 +3,14 @@
 ###
 
 GET http://localhost:1234/usuarios
+###
+GET http://localhost:1234/productos
 
 ###
 # 2: Obtener datos de un usuario por ID
 ###
 
-GET http://localhost:1234/usuarios/1
+GET http://localhost:1234/usuarios/4
 
 ###
 # 3: Crear un nuevo usuario
@@ -18,9 +20,10 @@ POST http://localhost:1234/usuarios
 Content-Type: application/json
 
 {
-  "id": 11,
-  "nombre": "Matias Riera",
-  "edad": 32,
+  "id": 2,
+  "dni": 12312312,
+  "nombre": "Matias",
+  "apellido": "Riera",  
   "email": "mriera@ejemplo.com",
   "telefono": "+342 5157 516"
 }
@@ -29,19 +32,20 @@ Content-Type: application/json
 # 4: Modificar atributos de un usuario por ID
 ###
 
-PATCH http://localhost:1234/usuarios/11
+PATCH http://localhost:1234/usuarios/4
 Content-Type: application/json
 
 {
-  "nombre": "Matias Riera",  
-  "email": "mriera@gmail.com"
+  "id": 3,
+  "nombre": "Gustavo",
+
 }
 
 ###
 # 5: Borrar un usuario por ID
 ###
 
-DELETE http://localhost:1234/usuarios/11
+DELETE http://localhost:1234/usuarios/2
 
 ###
 # 6: Obtener el precio de un producto por ID

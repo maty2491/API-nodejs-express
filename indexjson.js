@@ -57,10 +57,10 @@ app.get('/productos', async (req, res) => {
 
 // 2. Crear el endpoint ‘/usuarios/id’ que devuelva los datos de un usuario en particular consignado por su número de id.
 
-app.get('/usuarios/:id', async (req, res) => {
+app.get('/usuarios/:id', (req, res) => {
   try {
     let userId = parseInt(req.params.id)
-    let userEncontrado = await Usuario.findByPk(userId)
+    let userEncontrado = datos.usuarios.find((usuarios) => usuarios.id === userId)
     if (!userEncontrado) {
       console.log('El usuario con el id %s no existe', userId)
       res.status(404).send('El usuario con el id %s no existe', userId)
@@ -81,11 +81,10 @@ app.post('/usuarios/', (req, res) => {
       newUser += chunk.toString()
     })
 
-    req.on('end', async () => {
+    req.on('end', () => {
       const data = JSON.parse(newUser)
       req.body = data
-      const usuarioAGuardar = new Usuario(req.body)
-      await usuarioAGuardar.save()
+      datos.usuarios.push(req.body)
     })
     res.status(201).json({ message: 'Usuario creado' })
   } catch (error) {
@@ -95,41 +94,57 @@ app.post('/usuarios/', (req, res) => {
 
 // 4. Crear el endpoint ‘/usuarios/id’ que permita modificar algún atributo de un usuario.
 
-app.patch('/usuarios/:id', async (req, res) => {
+app.patch('/usuarios/:id', (req, res) => {
 
   let idUserUpdate = parseInt(req.params.id)
-  try{
-    let userUpdate = await Usuario.findByPk(idUserUpdate)
-    if (!userUpdate) {
-      res.status(204).json({ message: ' Usuario no encontrado '})
-    }
-    let newUser = ''
+  let userUpdate = datos.usuarios.find((usuario) => usuario.id === idUserUpdate)
+
+  if (!userUpdate) {
+    res.status(204).json({ message: ' Usuario no encontrado '})
+  }
+
+  let newUser = ''
 
   req.on('data', (chunk) => {
     newUser += chunk.toString()
   })
-  req.on('end', async () => {
+
+  req.on('end', () => {
     const data = JSON.parse(newUser)
     req.body = data
-    await userUpdate.update(req.body)
+
+    if (data.nombre) {
+      userUpdate.nombre = data.nombre
+    }
+
+    if (data.tipo) {
+      userUpdate.edad = data.edad
+    }
+
+    if (data.email) {
+      userUpdate.email = data.email
+    }
+    if (data.telefono) {
+      userUpdate.telefono = data.telefono
+    }
+
     res.status(200).send('Usuario actualizado')
-  }  
-)} catch (error) {
-    res.status(204).json({ message: 'Usuario no encontrado'})
-  }
+  })
 })
 // 5. Crear el endpoint ‘/usuarios/id’ que permita borrar un usuario de los datos.
 
-app.delete('/usuarios/:id', async(req, res) => {
+app.delete('/usuarios/:id', (req, res) => {
   let idUserDelete = parseInt(req.params.id)
+  let userDelete = datos.usuarios.find((usuario) => usuario.id === idUserDelete)
+
+  if (!userDelete) {
+    res.status(204).json({ message: 'Usuario no encontrado' })
+  }
+
+  let indexUserDelete = datos.usuarios.indexOf(userDelete)
+
   try {
-    let userDelete = await Usuario.findByPk(idUserDelete)
-
-    if (!userDelete) {
-      res.status(204).json({ message: 'Usuario no encontrado' })
-    }
-
-  await userDelete.destroy()
+    datos.usuarios.splice(indexUserDelete, 1)
     res.status(200).json({message: 'Usuario borrado'})
   } catch (error) {
     res.status(204).json({message: 'Error' })
@@ -138,12 +153,12 @@ app.delete('/usuarios/:id', async(req, res) => {
 
 // 6. Crear el endpoint que permita obtener el precio de un producto que se indica por id.
 
-app.get('/productos/:id/precio', async (req, res) => {
+app.get('/productos/:id/precio', (req, res) => {
   const idProduct = parseInt(req.params.id)
-  const productExist = await Producto.findByPk(idProduct)
+  const productExist = datos.productos.find((producto) => producto.id === idProduct)
 
   if (productExist) {
-    res.status(200).json({ 'El precio del producto es ': productExist.precio })
+    res.status(200).json({'El precio del producto es ': productExist.precio})
   } else {
     res.status(404).json({ message: 'El producto no existe' })
   }
@@ -151,9 +166,9 @@ app.get('/productos/:id/precio', async (req, res) => {
 
 // 7. Crear el endpoint que permita obtener el nombre de un producto que se indica por id.
 
-app.get('/productos/:id/nombre', async (req, res) => {
+app.get('/productos/:id/nombre', (req, res) => {
   const idProduct = parseInt(req.params.id)
-  const productExist = await Producto.findByPk(idProduct)
+  const productExist = datos.productos.find((producto) => producto.id === idProduct)
 
   if (productExist) {
     res.status(200).json({ 'El nombre del producto es ': productExist.nombre })
@@ -164,10 +179,10 @@ app.get('/productos/:id/nombre', async (req, res) => {
 
 // 8. Crear el endpoint que permita obtener el teléfono de un usuario que se indica por id.
 
-app.get('/usuarios/:id/telefono', async(req, res) => {
+app.get('/usuarios/:id/telefono', (req, res) => {
   try {
     let idUser = parseInt(req.params.id)
-    let userExist = await Usuario.findByPk( idUser)
+    let userExist = datos.usuarios.find((usuario) => usuario.id === idUser)
     if (!userExist) {
       res.status(204).json({ message: 'El usuario no fue encontrado' })
     }
@@ -178,10 +193,10 @@ app.get('/usuarios/:id/telefono', async(req, res) => {
 })
 
 // 9. Crear el endpoint que permita obtener el nombre de un usuario que se indica por id.
-app.get('/usuarios/:id/nombre', async (req, res) => {
+app.get('/usuarios/:id/nombre', (req, res) => {
   try {
     let idUser = parseInt(req.params.id) 
-    let userExist = await Usuario.findByPk( idUser)
+    let userExist = datos.usuarios.find((usuario) => usuario.id === idUser)
     if (!userExist) {
       res.status(204).json({ message: 'El usuario no fue encontrado' })
     }
@@ -193,10 +208,17 @@ app.get('/usuarios/:id/nombre', async (req, res) => {
 
 // 10. Crear el endpoint que permita obtener el total del stock actual de productos, la sumatoria de los precios individuales.
 
-app.get('/productos/total', async (req, res) => {
+app.get('/productos/total', (req, res) => {
   try {
-    const total = await Producto.sum('precio')
-    res.status(200).json({ 'La suma de todos los productos es de : ': total })
+    const total = datos.productos.reduce((precioTotal, producto) => {
+      if (typeof producto.precio === 'number') {
+        return precioTotal + producto.precio
+      } else {
+        return precioTotal
+      }
+    }, 0)
+    const totalConDosDecimales = parseFloat(total.toFixed(2))
+    res.status(200).json({ 'La suma de todos los productos es de : ': totalConDosDecimales })
   } catch (err) {
     res.status(204).json({ Error: err })
   }
