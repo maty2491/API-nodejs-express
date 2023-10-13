@@ -16,16 +16,17 @@ GET http://localhost:1234/usuarios/4
 # 3: Crear un nuevo usuario
 ###
 
-POST http://localhost:1234/usuarios
+POST http://localhost:1234/usuarios/new
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsInVzZXIiOiJtcmllcmFAZXhhbXBsZS5jb20iLCJleHAiOjE2OTcyMzU3NTA5NTYsImlhdCI6MTY5NzIzNTY5MH0.5guaNRkxVnqR8QBmgNYuREFTP9dKTzpGWB0_XkeAZ7E
 
 {
-  "id": 2,
-  "dni": 12312312,
-  "nombre": "Matias",
-  "apellido": "Riera",  
-  "email": "mriera@ejemplo.com",
-  "telefono": "+342 5157 516"
+  "id": 8,  
+  "dni": 2222222,
+  "nombre": "Jorge",
+  "apellido": "Sica",  
+  "email": "jsica@ejemplo.com",
+  "telefono": "+342 123 1236"
 }
 
 ###
@@ -34,11 +35,10 @@ Content-Type: application/json
 
 PATCH http://localhost:1234/usuarios/4
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsInVzZXIiOiJtcmllcmFAZXhhbXBsZS5jb20iLCJleHAiOjE2OTcyMzU3NTA5NTYsImlhdCI6MTY5NzIzNTY5MH0.5guaNRkxVnqR8QBmgNYuREFTP9dKTzpGWB0_XkeAZ7E
 
-{
-  "id": 3,
-  "nombre": "Gustavo",
-
+{ 
+  "nombre": "Matias Gabriel"
 }
 
 ###
@@ -76,3 +76,14 @@ GET http://localhost:1234/usuarios/1/nombre
 ###
 
 GET http://localhost:1234/productos/total
+
+###
+# 11: Respuesta desde el formulario de log en el front
+###
+POST http://localhost:1234/auth
+Content-Type: application/json
+
+{
+  "email": "mriera@example.com",
+  "password": "passMatias"
+}

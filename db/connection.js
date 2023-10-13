@@ -1,12 +1,16 @@
 import { Sequelize } from 'sequelize'
+import dotenv from 'dotenv'
 
-const db = new Sequelize('kiskmxtb', // nombre db
-  'kiskmxtb', // nombre usuario
-  'jsLlSLk7Vtx5Opwkxu3-JNb7J3QTk-cQ', // password
+dotenv.config()
+
+const db = new Sequelize(
+  process.env.DB_NAME, // nombre db
+  process.env.DB_USERNAME, // nombre usuario
+  process.env.DB_PASSWORD, // password
 
   {
-    host: 'silly.db.elephantsql.com',
-    dialect: 'postgres',
+    host: process.env.DB_HOSTNAME,
+    dialect: process.env.DB_DIALECT,
     logging: false
   })
 
