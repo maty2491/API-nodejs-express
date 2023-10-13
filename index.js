@@ -6,8 +6,6 @@ import db from './db/connection.js'
 
 const require = createRequire(import.meta.url)
 
-const datos = require('./datos.json')
-
 const app = express()
 
 const expossedPort = 1234
@@ -96,8 +94,7 @@ app.post('/usuarios/', (req, res) => {
 // 4. Crear el endpoint ‘/usuarios/id’ que permita modificar algún atributo de un usuario.
 
 app.patch('/usuarios/:id', async (req, res) => {
-
-  let idUserUpdate = parseInt(req.params.id)
+ let idUserUpdate = parseInt(req.params.id)
   try{
     let userUpdate = await Usuario.findByPk(idUserUpdate)
     if (!userUpdate) {
@@ -105,22 +102,23 @@ app.patch('/usuarios/:id', async (req, res) => {
     }
     let newUser = ''
 
-  req.on('data', (chunk) => {
-    newUser += chunk.toString()
-  })
-  req.on('end', async () => {
-    const data = JSON.parse(newUser)
-    req.body = data
-    await userUpdate.update(req.body)
-    res.status(200).send('Usuario actualizado')
-  }  
-)} catch (error) {
-    res.status(204).json({ message: 'Usuario no encontrado'})
+    req.on('data', (chunk) => {
+      newUser += chunk.toString()
+    })
+    req.on('end', async () => {
+      const data = JSON.parse(newUser)
+      req.body = data
+      await userUpdate.update(req.body)
+      res.status(200).send('Usuario actualizado')
+    }
+    )
+  } catch (error) {
+    res.status(204).json({ message: 'Usuario no encontrado' })
   }
 })
 // 5. Crear el endpoint ‘/usuarios/id’ que permita borrar un usuario de los datos.
 
-app.delete('/usuarios/:id', async(req, res) => {
+app.delete('/usuarios/:id', async (req, res) => {
   let idUserDelete = parseInt(req.params.id)
   try {
     let userDelete = await Usuario.findByPk(idUserDelete)
@@ -129,10 +127,10 @@ app.delete('/usuarios/:id', async(req, res) => {
       res.status(204).json({ message: 'Usuario no encontrado' })
     }
 
-  await userDelete.destroy()
-    res.status(200).json({message: 'Usuario borrado'})
+    await userDelete.destroy()
+    res.status(200).json({ message: 'Usuario borrado' })
   } catch (error) {
-    res.status(204).json({message: 'Error' })
+    res.status(204).json({ message: 'Error' })
   }
 })
 
@@ -164,7 +162,7 @@ app.get('/productos/:id/nombre', async (req, res) => {
 
 // 8. Crear el endpoint que permita obtener el teléfono de un usuario que se indica por id.
 
-app.get('/usuarios/:id/telefono', async(req, res) => {
+app.get('/usuarios/:id/telefono', async (req, res) => {
   try {
     let idUser = parseInt(req.params.id)
     let userExist = await Usuario.findByPk( idUser)
@@ -180,8 +178,8 @@ app.get('/usuarios/:id/telefono', async(req, res) => {
 // 9. Crear el endpoint que permita obtener el nombre de un usuario que se indica por id.
 app.get('/usuarios/:id/nombre', async (req, res) => {
   try {
-    let idUser = parseInt(req.params.id) 
-    let userExist = await Usuario.findByPk( idUser)
+    let idUser = parseInt(req.params.id)
+    let userExist = await Usuario.findByPk(idUser)
     if (!userExist) {
       res.status(204).json({ message: 'El usuario no fue encontrado' })
     }
@@ -202,11 +200,11 @@ app.get('/productos/total', async (req, res) => {
   }
 })
 
-try{
+try {
   await db.authenticate()
-  console.log("Conexion con la DB establecida")
-}catch(error) {
-  console.log("Error de conexion", error)
+  console.log('Conexion con la DB establecida')
+} catch (error) {
+  console.log(' Error de conexion ', error)
 }
 
 app.listen(expossedPort, () => {
