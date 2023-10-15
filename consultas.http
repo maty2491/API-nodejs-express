@@ -10,7 +10,7 @@ GET http://localhost:1234/productos
 # 2: Obtener datos de un usuario por ID
 ###
 
-GET http://localhost:1234/usuarios/4
+GET http://localhost:1234/usuarios/7
 
 ###
 # 3: Crear un nuevo usuario
@@ -18,27 +18,28 @@ GET http://localhost:1234/usuarios/4
 
 POST http://localhost:1234/usuarios/new
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsInVzZXIiOiJtcmllcmFAZXhhbXBsZS5jb20iLCJleHAiOjE2OTcyMzU3NTA5NTYsImlhdCI6MTY5NzIzNTY5MH0.5guaNRkxVnqR8QBmgNYuREFTP9dKTzpGWB0_XkeAZ7E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsInVzZXIiOiJtcmllcmFAZXhhbXBsZS5jb20iLCJleHAiOjE2OTczMzAxMDczMzEsImlhdCI6MTY5NzMyOTgwN30.OIrq-Ohi3Cufk5U0kY4hNjKckeNQ4Grq5-UoNCSrqMY
 
 {
-  "id": 8,  
-  "dni": 2222222,
+  "id": 9,  
+  "dni": 33333333,
   "nombre": "Jorge",
   "apellido": "Sica",  
-  "email": "jsica@ejemplo.com",
-  "telefono": "+342 123 1236"
+  "email": "jorgesica@ejemplo.com",
+  "telefono": "+342 123 1236", 
+  "password": "1234567"
 }
 
 ###
 # 4: Modificar atributos de un usuario por ID
 ###
 
-PATCH http://localhost:1234/usuarios/4
+PATCH http://localhost:1234/usuarios/5
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsInVzZXIiOiJtcmllcmFAZXhhbXBsZS5jb20iLCJleHAiOjE2OTcyMzU3NTA5NTYsImlhdCI6MTY5NzIzNTY5MH0.5guaNRkxVnqR8QBmgNYuREFTP9dKTzpGWB0_XkeAZ7E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsInVzZXIiOiJtcmllcmFAZXhhbXBsZS5jb20iLCJleHAiOjE2OTczMzAxMDczMzEsImlhdCI6MTY5NzMyOTgwN30.OIrq-Ohi3Cufk5U0kY4hNjKckeNQ4Grq5-UoNCSrqMY
 
 { 
-  "nombre": "Matias Gabriel"
+  "nombre": "Luke Skywalker"
 }
 
 ###

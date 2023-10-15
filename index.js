@@ -64,7 +64,7 @@ app.get('/', (req, res) => {
   res.status(200).send(html)
 })
 // Endpoint validacion
-app.post('/auth', async (req, res, next) => {
+app.post('/auth', async (req, res) => {
   const userToSearch = req.body.email
   const userPassReq = req.body.password
   let userFind = ''
@@ -86,10 +86,9 @@ app.post('/auth', async (req, res, next) => {
     const token = jwt.sign({
         sub,
         user,
-        exp: Date.now() + (60 * 1000)
+        exp: Date.now() + (300 * 1000)
     }, process.env.SECRET_KEY)
     res.status(200).json({ accessToken: token })
-    next()
 })
 
 // 1. Crear el endpoint ‘/usuarios/’, que devuelva el listado completo de usuarios.
@@ -134,6 +133,7 @@ app.get('/usuarios/:id', async (req, res) => {
 app.post('/usuarios/new', authToken, async (req, res) => {
   try {
     const usuarioAGuardar = new Usuario(req.body)
+    console.log(usuarioAGuardar)
     await usuarioAGuardar.save()
     res.status(201).json({ message: 'Usuario creado' })
   } catch (error) {
