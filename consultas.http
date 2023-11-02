@@ -1,78 +1,169 @@
 ###
-# 1: Obtener el listado completo de usuarios
+# 1: Obtener el listado completo de usuarios y productos
 ###
+GET http://localhost:8000/usuarios/
+###
+GET http://localhost:8000/productos
 
-GET http://localhost:1234/usuarios
 ###
-GET http://localhost:1234/productos
+# 2: Obtener datos de un usuario y producto por ID 
+###
+GET http://localhost:8000/usuarios/14
+###
+GET http://localhost:8000/productos/1
+###
+# 3: Cambiar usuario comun a proveedor
+###
+PATCH http://localhost:8000/usuarios/nuevoProveedor
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VyIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2wiOjEsImV4cCI6MTY5ODg5MzMyMzIwNSwiaWF0IjoxNjk4ODkzMDIzfQ.nvjwd__Mb6kvA1Vn56ZaW9NYujf84wHGZeAmXY5-tkA
 
-###
-# 2: Obtener datos de un usuario por ID
-###
-
-GET http://localhost:1234/usuarios/4
+{  
+  "id": 20
+}
 
 ###
 # 3: Crear un nuevo usuario
 ###
-
-POST http://localhost:1234/usuarios
+POST http://localhost:8000/usuarios/
 Content-Type: application/json
 
-{
-  "id": 2,
-  "dni": 12312312,
+{  
+  "dni": 12345678,
   "nombre": "Matias",
   "apellido": "Riera",  
   "email": "mriera@ejemplo.com",
-  "telefono": "+342 5157 516"
+  "telefono": "+342 123123123",
+  "password": "passMatias"
+}
+
+###
+# 3.1: Crear un nuevo producto
+POST http://localhost:8000/productos/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE1LCJ1c2VyIjoiaW5mb21leEBleGFtcGxlLmNvbSIsInJvbCI6MywiZXhwIjoxNjk4NDI0MzI5NDQxLCJpYXQiOjE2OTg0MjQyNjl9.-SCZJhPpxxTIktbAWKyKvCpyANqkgvL_2ZENC3Or3SU
+
+{  
+  "nombre": "Pend Drive",
+  "tipo": "Informatica",
+  "precio": 6500,
+  "stock": 7 
 }
 
 ###
 # 4: Modificar atributos de un usuario por ID
 ###
-
-PATCH http://localhost:1234/usuarios/4
+PATCH http://localhost:8000/usuarios/14
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE1LCJ1c2VyIjoiaW5mb21leEBleGFtcGxlLmNvbSIsInJvbCI6MywiZXhwIjoxNjk4NDI0MjQ0NzkyLCJpYXQiOjE2OTg0MjQxODR9.s-XCEffNa049dByVuU6I3vL8y3f1eTgP6HftXBa7rjU
 
-{
-  "id": 3,
-  "nombre": "Gustavo",
+{ 
+  "nombre": "Matias Gabriel"
+}
 
+# 4.1: Modificar atributos de un producto por ID
+###
+PATCH http://localhost:8000/productos/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE0LCJ1c2VyIjoiamxvcGV6QGV4YW1wbGUuY29tIiwicm9sIjoyLCJleHAiOjE2OTg0MjQxMTc3MjEsImlhdCI6MTY5ODQyNDA1N30.tIqjB9Dbtm4BT9wKeuVqP69bxb3CymWy4zxzfpUVLqI
+
+{ 
+    "id": 4,
+    "nombre": "Monitor",
+    "tipo": "Informatica",
+    "precio": 25200,
+    "stock": 3
+}
+
+###
+PATCH http://localhost:8000/productos/actualizar-stock
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE1LCJ1c2VyIjoiaW5mb21leEBleGFtcGxlLmNvbSIsInJvbCI6MywiZXhwIjoxNjk4ODkzOTQyODI3LCJpYXQiOjE2OTg4OTM2NDJ9.2GXWP8SEkO0cffhhdin80G9G9UvjbtQVBCbrT2hiEg0
+
+{ 
+    "sku": "COD-002",    
+    "stock": 300
 }
 
 ###
 # 5: Borrar un usuario por ID
 ###
+DELETE http://localhost:8000/usuarios/2
 
-DELETE http://localhost:1234/usuarios/2
+# 5. 1: Borrar un producto por ID
+###
+DELETE http://localhost:8000/productos/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE0LCJ1c2VyIjoiamxvcGV6QGV4YW1wbGUuY29tIiwicm9sIjoyLCJleHAiOjE2OTg0MjQxMTc3MjEsImlhdCI6MTY5ODQyNDA1N30.tIqjB9Dbtm4BT9wKeuVqP69bxb3CymWy4zxzfpUVLqI
 
 ###
 # 6: Obtener el precio de un producto por ID
 ###
-
-GET http://localhost:1234/productos/1/precio
+GET http://localhost:8000/productos/1/precio
 
 ###
 # 7: Obtener el nombre de un producto por ID
 ###
-
-GET http://localhost:1234/productos/1/nombre
+GET http://localhost:8000/productos/1/nombre
 
 ###
 # 8: Obtener el teléfono de un usuario por ID
 ###
-
-GET http://localhost:1234/usuarios/1/telefono
+GET http://localhost:8000/usuarios/1/telefono
 
 ###
 # 9: Obtener el nombre de un usuario por ID
 ###
-
-GET http://localhost:1234/usuarios/1/nombre
+GET http://localhost:8000/usuarios/1/nombre
 
 ###
 # 10: Obtener el total del stock actual de productos
 ###
+GET http://localhost:8000/productos/total
 
-GET http://localhost:1234/productos/total
+###
+# 11: LOG ADMIN
+###
+POST http://localhost:8000/auth
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "passAdmin"
+}
+###
+# 11.1 : LOG USER
+
+POST http://localhost:8000/auth
+Content-Type: application/json
+
+{
+  "email": "jlopez@example.com",
+  "password": "passJorge"
+}
+###
+# 11.1 : LOG PROVEEDOR
+POST http://localhost:8000/auth
+Content-Type: application/json
+
+{
+  "email": "infomex@example.com",
+  "password": "passInfomex"
+}
+###
+# 12 : CREAR CARRO
+POST http://localhost:8000/carrito/nuevo
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE0LCJ1c2VyIjoiamxvcGV6QGV4YW1wbGUuY29tIiwicm9sIjoyLCJleHAiOjE2OTg4ODk4ODMwMDksImlhdCI6MTY5ODg4OTgyM30.eyI0i03x6aLt5Or_NGpiElRUbcBg4M7AQ0UcKYn94S4
+
+{
+  "sku" : "COD-001",
+  "cantidad": 2
+}
+
+###
+# 12 : CREAR CARRO
+GET http://localhost:8000/carrito/vista/4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE0LCJ1c2VyIjoiamxvcGV6QGV4YW1wbGUuY29tIiwicm9sIjoyLCJleHAiOjE2OTg4ODk2MTgyNDIsImlhdCI6MTY5ODg4OTU1OH0.MY_JGif6WhRui8Vespj1Yaz4LlkImVIpwjytK_BtldA
+
