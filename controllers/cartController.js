@@ -33,6 +33,9 @@ export async function addToCart(req, res) {
 }
 
 export async function viewCart(req, res) {
+    if(req.nivelUsuario != 2 ){
+        res.status(400).json({ message: 'Usted no tiene permisos' });
+    }
     try {
         const carrito = req.params.id
         const vistaCarrito = await Carro.findByPk(carrito 
