@@ -11,7 +11,7 @@ const db = new Sequelize(
   {
     host: process.env.DB_HOSTNAME,
     dialect: process.env.DB_DIALECT,
-    logging: false
+    logging: true
   })
 
 export default db
